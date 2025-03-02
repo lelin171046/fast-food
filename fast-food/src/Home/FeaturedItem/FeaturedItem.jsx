@@ -5,7 +5,7 @@ import './Featured.css';
 
 const FeaturedItem = () => {
     return (
-       <section className='bg-img bg-fixed pt-8 text-white'>
+       <section className='bg-img bg-fixed pt-2 text-white'>
         <SectionTitle
         subHeading={'---Check it out---'}
         heading={'FROM OUR MENU'}
