@@ -10,12 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/react-helmet": "^6.1.11",
     "primereact": "^10.9.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-helmet": "^6.1.0",
+    "react-parallax-component": "^1.0.6",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^7.2.0",
+    "react-scroll-parallax": "^3.4.5",
     "swiper": "^11.2.4"
   },
   "devDependencies": {
