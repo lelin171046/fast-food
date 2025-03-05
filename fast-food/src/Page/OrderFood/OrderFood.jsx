@@ -1,62 +1,62 @@
-import React, { useState } from "react";
-import Cover from "../../Component/Shared/Cover";
-import oderCover from "../../assets/shop/banner2.jpg";
-import useMenu from "../../Hooks/useMenu";
-import FoodCard from "../../Component/Shared/FoodCard";
-import { useParams } from "react-router-dom";
-// import FoodCard from "../../Component/FoodCard"; // Make sure this is importe
+import { useState } from 'react';
+import orderCoverImg from '../../assets/shop/banner2.jpg'
+
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+
+
+import { useParams } from 'react-router';
+
+import useMenu from '../../Hooks/useMenu';
+import Cover from '../../Component/Shared/Cover';
+import OrderTab from './OrderTab';
 import { Helmet } from 'react-helmet';
 
-
 const OrderFood = () => {
-  const [menu] = useMenu();
-  const categories = ["Salad", "Pizza", "Soups", "Desserts", "Drinks"];
-  const {category} = useParams();
-  const initialIndex = categories.indexOf(category)
-  const [activeTab, setActiveTab] = useState(initialIndex);
+    const categories = ['salad', 'pizza', 'soup', 'dessert', 'drinks'];
+    const { category } = useParams();
+    const initialIndex = categories.indexOf(category);
+    const [tabIndex, setTabIndex] = useState(initialIndex);
+    const [menu] = useMenu();
+    
+    const desserts = menu.filter(item => item.category === 'dessert');
+    const soup = menu.filter(item => item.category === 'soup');
+    const salad = menu.filter(item => item.category === 'salad');
+    const pizza = menu.filter(item => item.category === 'pizza');
+    const drinks = menu.filter(item => item.category === 'drinks');
 
-  // Filter menu items dynamically
-  const filteredMenu = {
-    Salad: menu.filter((item) => item.category === "salad"),
-    Pizza: menu.filter((item) => item.category === "pizza"),
-    Soups: menu.filter((item) => item.category === "soup"),
-    Desserts: menu.filter((item) => item.category === "dessert"),
-    Drinks: menu.filter((item) => item.category === "drink"),
-  };
-
-  return (
-    <div>
-
-<Helmet>
-                <title>Fast Food | Menu</title>
+    return (
+        <div>
+            <Helmet>
+                <title>Bistro Boss | Order Food</title>
             </Helmet>
-      <Cover img={oderCover} title={"Order Your Food Now"} />
-
-      {/* Tabs */}
-      <div className="flex space-x-6 border-b mb-6">
-        {categories.map((category) => (
-          <button
-            key={category}
-            className={`pb-2 text-lg font-semibold ${
-              activeTab === category
-                ? "text-yellow-500 border-b-2 border-yellow-500"
-                : "text-gray-600"
-            }`}
-            onClick={() => setActiveTab(category)}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-
-      {/* Menu Items */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {filteredMenu[activeTab].map((item) => (
-          <FoodCard key={item._id} item={item} />
-        ))}
-      </div>
-    </div>
-  );
+            <Cover img={orderCoverImg} title="Order Food"></Cover>
+            <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
+                <TabList>
+                    <Tab>Salad</Tab>
+                    <Tab>Pizza</Tab>
+                    <Tab>Soup</Tab>
+                    <Tab>Dessert</Tab>
+                    <Tab>Drinks</Tab>
+                </TabList>
+                <TabPanel>
+                    <OrderTab items={salad}></OrderTab>
+                </TabPanel>
+                <TabPanel>
+                    <OrderTab items={pizza}></OrderTab>
+                </TabPanel>
+                <TabPanel>
+                    <OrderTab items={soup}></OrderTab>
+                </TabPanel>
+                <TabPanel>
+                    <OrderTab items={desserts}></OrderTab>
+                </TabPanel>
+                <TabPanel>
+                    <OrderTab items={drinks}></OrderTab>
+                </TabPanel>
+            </Tabs>
+        </div>
+    );
 };
 
 export default OrderFood;

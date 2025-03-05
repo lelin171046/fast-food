@@ -7,11 +7,12 @@ const useMenu = () =>{
 
 
     useEffect(()=>{
-        fetch('menu.json')
+        fetch(`${import.meta.env.VITE_API_URL}/menu`)
         .then(res => res.json())
         .then(data => {
            
             setMenu(data)
+            console.log(data, 'is here')
             setLoading(false)
 
         })

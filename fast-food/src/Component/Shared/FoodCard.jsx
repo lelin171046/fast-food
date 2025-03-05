@@ -8,7 +8,7 @@ const FoodCard = ({item}) => {
                 <figure>
                     <img
                         src={image}
-                        alt="Shoes" />
+                         />
                 </figure>
                         <p className='absolute bg-black right-0 text-white px-2 mr-4 rounded-lg mt-4'>${price}</p>
                 <div className="card-body">
