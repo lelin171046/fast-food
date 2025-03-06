@@ -4,6 +4,7 @@ import './index.css'
 import { RouterProvider } from 'react-router-dom';
 import router from './Route/Routes';
 import { ParallaxProvider } from 'react-scroll-parallax';
+import AuthProvider from './Provider/AuthProvider';
 // const router = createBrowserRouter([
 //   {
 //     path: "/",
@@ -13,11 +14,13 @@ import { ParallaxProvider } from 'react-scroll-parallax';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ParallaxProvider>
-    <div className="max-w-screen-xl mx-auto">
-        <RouterProvider router={router} />
-      </div>
-    </ParallaxProvider>
-     
+    <AuthProvider>
+      <ParallaxProvider>
+        <div className="max-w-screen-xl mx-auto">
+          <RouterProvider router={router} />
+        </div>
+      </ParallaxProvider>
+
+    </AuthProvider>
   </StrictMode>,
 )

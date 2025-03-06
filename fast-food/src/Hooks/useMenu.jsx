@@ -12,7 +12,6 @@ const useMenu = () =>{
         .then(data => {
            
             setMenu(data)
-            console.log(data, 'is here')
             setLoading(false)
 
         })

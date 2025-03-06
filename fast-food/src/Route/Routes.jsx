@@ -4,6 +4,8 @@ import ErrorPage from "../Page/ErrorPage";
 import Home from "../Home/Home";
 import Menu from "../Page/Menu/Menu";
 import OrderFood from "../Page/OrderFood/OrderFood";
+import Login from "../Page/Login";
+import SignIn from "../Page/SignIn";
 
 
 const router = createBrowserRouter([
@@ -22,8 +24,16 @@ const router = createBrowserRouter([
                 element: <Menu></Menu>
             },
             {
-                path: 'order',
+                path: 'order/:category',
                 element: <OrderFood></OrderFood>
+            },
+            {
+                path: 'login',
+                element: <Login></Login>
+            },
+            {
+                path: 'sign-in',
+                element: <SignIn></SignIn>
             }
 
         ]

@@ -15,7 +15,7 @@ const Testimonial = () => {
 const [review, setReview] = useState([])
 
     useEffect(()=>{
-        fetch(`${import.meta.env.VITE_API_URL}/review`)
+        fetch(`${import.meta.env.VITE_API_URL}/reviews`)
         .then(res => res.json())
         .then(data => setReview(data))
     },[])

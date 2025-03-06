@@ -36,9 +36,17 @@ const client = new MongoClient(uri, {
       await client.connect();
 
       const menuCollection = client.db('fastFoodDB').collection('menu');
+      const reviewCollection = client.db('fastFoodDB').collection('reviews');
 
+      //menu api
       app.get('/menu', async (req, res)=>{
         const result = await menuCollection.find().toArray()
+        res.send(result)
+      })
+     
+     //reviews api
+      app.get('/reviews', async (req, res)=>{
+        const result = await reviewCollection.find().toArray()
         res.send(result)
       })
       // Send a ping to confirm a successful connection
