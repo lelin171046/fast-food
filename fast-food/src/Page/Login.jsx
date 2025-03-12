@@ -1,19 +1,29 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
+import React, { useEffect,  useState } from 'react';
+import { loadCaptchaEnginge, LoadCanvasTemplate,  validateCaptcha } from 'react-simple-captcha';
 import img from '../assets/others/authentication1.png'
 import useAuth from '../Hooks/useAuth';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 const Login = () => {
-  const captChaRef = useRef(null);
+
   const [disabled, setDisabled] = useState(true);
-  const {user, signIn} = useAuth()
+  const { signIn, user} = useAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
+const from = location.state || '/'
+
+  useEffect(() => {
+    if (user) {
+      navigate('/')
+    }
+  }, [navigate, user])
 
   useEffect(()=>{
     loadCaptchaEnginge(6); 
   },[])
 
-  const handleCaptcha = ()=>{
-    const user_captcha_value = captChaRef.current.value;
+  const handleCaptcha = (e)=>{
+    const user_captcha_value = e.target.value;
     if (validateCaptcha(user_captcha_value)==true) {
       setDisabled(false)
   }
@@ -32,7 +42,14 @@ const handleLogin = (e) =>{
   .then(result =>{
     const user = result.user;
     console.log(user, 'here')
+     Swal.fire({
+            title: "Login Successful!",
+            icon: "success",
+            draggable: true
+          });
+          navigate(from, { replace: true })
   })
+  
 }
 
   return (
@@ -57,7 +74,7 @@ const handleLogin = (e) =>{
               <input
                 type="email"
                 name='email'
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                className="w-full p-2 text-white border rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
                 placeholder="Type here"
               />
             </div>
@@ -65,16 +82,16 @@ const handleLogin = (e) =>{
               <label className="block text-gray-700">Password</label>
               <input
                 type="password"
-                name='pass'
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                name='password'
+                className="w-full text-white p-2 border rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
                 placeholder="Enter your password"
               />
             </div>
             <div className='text-center '>
              
                 <label className="fieldset-label"><LoadCanvasTemplate /></label>
-                <input type="text " ref={captChaRef} name='captcha' className="input text-green-600" placeholder="type the captcha" />
-                <button type="button" onClick={handleCaptcha}  className="px-2 py-1 m-2 text-sm rounded-full dark:bg-gray-800 dark:text-gray-100">Verify captcha</button>
+                <input type="text " onBlur={handleCaptcha}  name='captcha' className="input  text-green-600" placeholder="type the captcha" />
+                {/* <button type="button"   className="px-2 py-1 m-2 text-sm rounded-full dark:bg-gray-800 dark:text-gray-100">Verify captcha</button> */}
             </div>
             <div className="">
               <input disabled={disabled} className={disabled? 'bg-white p-2 rounded w-full border-2 border-black text-gray-500' : 'w-full  bg-yellow-300  text-white p-2 rounded'} type="submit" value="Login" />
