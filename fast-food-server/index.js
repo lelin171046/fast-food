@@ -18,9 +18,9 @@ const corsOption = {
   app.use(cors(corsOption));
   app.use(express.json());
 
-// const uri = `mongodb://localhost:27017/`
+const uri = `mongodb://localhost:27017/`
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.0f5vnoo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+// const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.0f5vnoo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 
 const client = new MongoClient(uri, {
