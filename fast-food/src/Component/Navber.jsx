@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import useAuth from '../Hooks/useAuth';
+import { BsCart2 } from "react-icons/bs";
 
 const Navber = () => {
   const {user, logOut} = useAuth()
@@ -46,7 +47,9 @@ const Navber = () => {
           <li><Link to={'/'}>Home</Link></li>
           <li><Link to={'/menu'}>Menu</Link></li>
           <li><Link to={'/order/salad'}>Order Food</Link></li>
-          <li></li>
+          <li><button className="btn bg-none">
+           <BsCart2 /><div className="badge badge-sm badge-secondary">+99</div>
+</button></li>
            
           </ul>
         </div>
