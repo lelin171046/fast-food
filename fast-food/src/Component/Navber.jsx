@@ -2,14 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import useAuth from '../Hooks/useAuth';
 import { BsCart2 } from "react-icons/bs";
+import useCart from '../Hooks/useCart';
 
 const Navber = () => {
-  const {user, logOut} = useAuth()
+  const { user, logOut } = useAuth()
+  const [cart] = useCart()
 
-  const handleLogOut = () =>{
+  const handleLogOut = () => {
     logOut()
-    .then(()=>{})
-    .catch(error => error.message)
+      .then(() => { })
+      .catch(error => error.message)
   }
   return (
     <div>
@@ -32,30 +34,38 @@ const Navber = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+              className="menu menu-sm dropdown-content bg-orange-400 rounded-box z-[1] mt-3 w-52 p-2 shadow">
               <li><Link to={'/'}>Home</Link></li>
               <li><Link to={'/menu'}>Menu</Link></li>
               <li><Link to={'/order/salad'}>Order Food</Link></li>
-             
-              <li><a>Item 3</a></li>
+
+              <li> <Link to={'/dashboard/cart'}>
+              <button  className="btn bg-none">
+              <BsCart2 /><div className="badge badge-sm badge-secondary">+{cart.length}</div>
+            </button>
+              </Link></li>
             </ul>
           </div>
           <a className="btn btn-ghost text-xl">Food Fast</a>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
-          <li><Link to={'/'}>Home</Link></li>
-          <li><Link to={'/menu'}>Menu</Link></li>
-          <li><Link to={'/order/salad'}>Order Food</Link></li>
-          <li><button className="btn bg-none">
-           <BsCart2 /><div className="badge badge-sm badge-secondary">+99</div>
-</button></li>
-           
+            <li><Link to={'/'}>Home</Link></li>
+            <li><Link to={'/menu'}>Menu</Link></li>
+            <li><Link to={'/order/salad'}>Order Food</Link></li>
+            <li>
+              <Link to={'/dashboard/cart'}>
+              <button  className="btn bg-none">
+              <BsCart2 /><div className="badge badge-sm badge-secondary">+{cart.length}</div>
+            </button>
+              </Link>
+            </li>
+
           </ul>
         </div>
         <div className="navbar-end">
-          {user?
-            
+          {user ?
+
             <Link onClick={handleLogOut} className="btn">Logout</Link> :
             <Link to={'/login'}>Login</Link>}
         </div>
