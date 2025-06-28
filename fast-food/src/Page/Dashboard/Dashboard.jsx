@@ -6,18 +6,22 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { MdOutlineReviews } from "react-icons/md";
 import { TbBrandBooking } from "react-icons/tb";
 import { MdRestaurantMenu } from "react-icons/md";
+import useAuth from '../../Hooks/useAuth';
 
 
 
 const Dashboard = () => {
+
+    const {user} = useAuth();
+    console.log(user)
     return (
         <div className="h-full flex p-3 space-y-2 w-60dark:text-gray-800">
 
             <div className="divide-y min-h-full dark:divide-gray-300  bg-orange-400 ">
                 <div className="flex items-center p-2 space-x-4">
-                    <img src="https://source.unsplash.com/100x100/?portrait" alt="" className="w-12 h-12 rounded-full dark:bg-gray-500" />
+                    <img src="https://scontent.fdac147-1.fna.fbcdn.net/v/t39.30808-6/486261248_2476058512747393_5795953151229695811_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeH9m6FBRFjNzYaW1KCPGEQQfJN7EITOept8k3sQhM56mxGKK5zwlTTCW2kMj1u3yTBICJhhWKU2g4B6RpN6SC5H&_nc_ohc=7qEjrsZ7rgYQ7kNvwFWGajY&_nc_oc=AdlbAgzMWS-xpH4uR9HtLV7LqHE8yq9yliRWGiRMx5sTef6QKJaavL8xJmfBjuYEoqo&_nc_zt=23&_nc_ht=scontent.fdac147-1.fna&_nc_gid=_NT6JAmohiXHqIgC-GS4ng&oh=00_AfPiGeE_jBabO5853gyenqz0du72tRu9-5ALdfvlw77MXQ&oe=6865494A" alt="" className="w-12 h-12 rounded-full dark:bg-gray-500" />
                     <div>
-                        <h2 className="text-lg font-semibold">Leroy Jenkins</h2>
+                        <h2 className="text-lg font-semibold">{user?.displayName}</h2>
                         <span className="flex items-center space-x-1">
                             <a rel="noopener noreferrer" href="#" className="text-xs hover:underline dark:text-gray-600">View profile</a>
                         </span>
