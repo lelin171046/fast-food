@@ -68,6 +68,14 @@ const client = new MongoClient(uri, {
         res.send(result);
 
       })
+
+      //Delete Userr
+      app.delete('/users/:id', async (req, res)=>{
+        const id = req.params.id;
+        const query = {_id : new ObjectId(id)}
+        const result = await usersCollection.deleteOne(query);
+        res.send(result)
+      })
      
      //reviews api
       app.get('/reviews', async (req, res)=>{
