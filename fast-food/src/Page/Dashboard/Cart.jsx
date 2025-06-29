@@ -1,15 +1,45 @@
 import React from 'react';
 import useCart from '../../Hooks/useCart';
 import { NavLink } from 'react-router-dom';
+import Swal from 'sweetalert2'
+import useAxios from '../../Hooks/useAxios';
 
 const Cart = () => {
 
-    const [cart] = useCart();
+    const [cart, refetch] = useCart();
+    const axiosSecure = useAxios()
     const totalPrice = cart.reduce((total, item) => total + item.price, 0)
-    console.log(cart)
+    const handleDelete = id =>{
+        Swal.fire({
+  title: "Are you sure?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, delete it!"
+}).then((result) => {
+  if (result.isConfirmed) {
+
+    
+    axiosSecure.delete(`/carts/${id}`)
+    .then(res =>{
+        if(res.data.deletedCount > 0){
+            Swal.fire({
+      title: "Deleted!",
+      text: "Your file has been deleted.",
+      icon: "success"
+    });
+    refetch()
+        }
+    })
+  }
+});
+
+    }
     return (
         <div>
-            <div className="flex flex-col max-w-3xl p-6 space-y-4 sm:p-10 dark:bg-gray-50 dark:text-gray-800">
+            <div className="flex border-2 border-orange-400 flex-col max-w-3xl p-6 space-y-4 sm:p-10 dark:bg-gray-50 dark:text-gray-800">
                 <h2 className="text-xl font-semibold">Your cart</h2>
                 <h2>Total item: {cart.length}</h2>
                 <ul className="flex flex-col divide-y dark:divide-gray-300">
@@ -33,7 +63,7 @@ const Cart = () => {
                                         </div>
                                     </div>
                                     <div className="flex text-sm divide-x">
-                                        <button type="button" className="flex items-center px-2 py-1 pl-0 space-x-1">
+                                        <button onClick={()=>handleDelete(item._id)} type="button" className="flex items-center px-2 py-1 pl-0 space-x-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-4 h-4 fill-current">
                                                 <path d="M96,472a23.82,23.82,0,0,0,23.579,24H392.421A23.82,23.82,0,0,0,416,472V152H96Zm32-288H384V464H128Z"></path>
                                                 <rect width="32" height="200" x="168" y="216"></rect>

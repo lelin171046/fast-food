@@ -4,12 +4,14 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
 import useAuth from "../Hooks/useAuth";
+import useAxios from "../Hooks/useAxios";
 
 const SignUp = () => {
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const { createUser, updateUserProfile } = useAuth()
     const navigate = useNavigate();
+    const axiosSecure = useAxios()
 
     const onSubmit = data => {
         console.log(data);
