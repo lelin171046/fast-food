@@ -1,10 +1,12 @@
-import { useContext } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import useAuth from "../Hooks/useAuth";
 import useAxios from "../Hooks/useAxios";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
+
+import SocialLogIn from "../Component/Shared/SocialLogIn";
 
 const SignUp = () => {
 
@@ -12,6 +14,7 @@ const SignUp = () => {
     const { createUser, updateUserProfile } = useAuth()
     const navigate = useNavigate();
     const axiosSecure = useAxios()
+    const axiosPublic = useAxiosPublic()
 
     const onSubmit = data => {
         console.log(data);
@@ -21,15 +24,26 @@ const SignUp = () => {
                 console.log(loggedUser);
                 updateUserProfile(data.name, data.photoURL)
                     .then(() => {
-                        console.log('user profile info updated')
-                        reset();
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'User created successfully.',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
+                        //store user info in database
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email
+                        }
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    reset();
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: 'User created successfully.',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    console.log('user profile info updated')
+                                }
+                            })
+
                         navigate('/');
 
                     })
@@ -48,7 +62,7 @@ const SignUp = () => {
                         <h1 className="text-5xl font-bold">Sign up now!</h1>
                         <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
                     </div>
-                    <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+                    <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl pb-4 bg-base-100">
                         <form onSubmit={handleSubmit(onSubmit)} className="card-body">
                             <div className="form-control">
                                 <label className="label">
@@ -89,11 +103,16 @@ const SignUp = () => {
                                     <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                 </label>
                             </div>
-                            <div className="form-control mt-6">
+                            <div className="form-control mt-2">
                                 <input className="btn btn-primary" type="submit" value="Sign Up" />
                             </div>
                         </form>
-                        <p><small>Already have an account <Link to="/login">Login</Link></small></p>
+
+                        <p className="text-center text-black text-sm mt-1">
+                            Already have a account? <Link to={'/login'} className="text-yellow-600">Login Account</Link>
+                        </p>
+                        <p className="text-center text-black text-sm mt-4">OR</p>
+                        <SocialLogIn></SocialLogIn>
                     </div>
                 </div>
             </div>
