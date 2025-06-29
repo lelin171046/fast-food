@@ -2,6 +2,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
 const express = require('express');
 const app = express();
+const jwt = require('jsonwebtoken');
 const port = process.env.PORT || 5000;
 require('dotenv').config();
 const corsOption = {
@@ -11,7 +12,7 @@ const corsOption = {
     //   'https://builder-bd.web.app',
   
     ],
-    methods: 'GET,POST,PUT,DELETE',
+    methods: 'GET,POST,PUT,DELETE,PATCH',
     credentials: true,
     optionSuccessStatus: 200,
   };
@@ -76,7 +77,18 @@ const client = new MongoClient(uri, {
         const result = await usersCollection.deleteOne(query);
         res.send(result)
       })
-     
+     //Role Making api
+     app.patch('/users/admin/:id', async (req, res)=>{
+      const id = req.params.id;
+        const filter = {_id : new ObjectId(id)};
+        const updatedDoc = {
+          $set:{
+            role : 'admin'
+          }
+        }
+        const result = await usersCollection.updateOne(filter, updatedDoc);
+         res.send(result)
+     })
      //reviews api
       app.get('/reviews', async (req, res)=>{
         const result = await reviewCollection.find().toArray()
