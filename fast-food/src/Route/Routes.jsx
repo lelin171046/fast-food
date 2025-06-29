@@ -10,6 +10,7 @@ import Dashbroad from "../Page/Dashboard/Dashboard";
 import Dashboard from "../Page/Dashboard/Dashboard";
 import Cart from "../Page/Dashboard/Cart";
 import PrivateRoute from "./PrivateRoute";
+import AllUser from "../Page/Dashboard/AllUser";
 
 
 const router = createBrowserRouter([
@@ -49,6 +50,11 @@ const router = createBrowserRouter([
             {
                 path: 'cart',
                 element: <Cart></Cart>
+            },
+            //admin link
+            {
+                path: 'allUsers',
+                element: <AllUser></AllUser>
             }
         ]
     }

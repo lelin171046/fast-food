@@ -48,11 +48,16 @@ const client = new MongoClient(uri, {
         res.send(result)
       })
 
-      //user Api
+      //user Api....................
+      //all users
+      app.get('/users', async (req, res)=>{
+        const result = await usersCollection.find().toArray();
+        res.send(result)
+      })
       app.post('/users',  async(req, res)=>{
         const user = req.body;
         //checking user 
-        const query = {email : user.body}
+        const query = {email : user.email}
         const existingUser = await usersCollection.findOne(query);
         if(existingUser){
           return res.send({message: 'user already Exist', insertedId: null})
