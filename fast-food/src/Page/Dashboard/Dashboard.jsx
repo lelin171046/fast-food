@@ -8,6 +8,7 @@ import { SiFoodpanda } from "react-icons/si";
 import { TbBrandBooking } from "react-icons/tb";
 import { MdRestaurantMenu } from "react-icons/md";
 import useAuth from '../../Hooks/useAuth';
+import useAdmin from '../../Hooks/useAdmin';
 
 
 
@@ -17,6 +18,8 @@ const Dashboard = () => {
     const navigate = useNavigate()
     
     const isAdmin = true;
+        // const [isAdmin] = useAdmin();
+
 
     console.log(user)
 

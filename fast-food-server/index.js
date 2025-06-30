@@ -76,6 +76,21 @@ const client = new MongoClient(uri, {
 
         
       }
+      ///Admin api
+      app.get('/users/admin/:email', async(req, res)=>{
+        const email = req.params.email;
+        if(email !== req.decoded.email){
+          return res.status(403).send({message: 'Unauthorized access'})
+
+        }
+        const query = {email: email}
+        const user = await usersCollection.findOne(query);
+        let admin = false;
+        if(user){
+          admin = user?.role === 'admin'
+        }
+        res.send({admin})
+      })
 
       //user Api....................
       //all users
