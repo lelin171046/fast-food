@@ -53,14 +53,28 @@ const client = new MongoClient(uri, {
       app.post('/jwt', async(req, res)=>{
         const user = req.body;
         const token = jwt.sign(user, process.env.ACCESS_TOKEN, {expiresIn: '1h'});
+
         res.send({token})
 
       })
 
       //Making Middleawre
       const verifyToken = (req, res, next) =>{
-        console.log('inside',req.headers);
-        next()
+        console.log('inside', req.headers.authorization);
+        if(!req.headers.authorization){
+          return res.status(401).send({message: 'forbidden access'})
+        }
+        const token = req.headers.authorization.split(' ')[1];
+        jwt.verify(token, process.env.ACCESS_TOKEN, (err, decoded)=>{
+          if(err){
+            return res.status(401).send({message: 'forbidden access'})
+          }
+          req.decoded =decoded
+
+          next()
+        })
+
+        
       }
 
       //user Api....................
