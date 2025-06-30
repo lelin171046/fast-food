@@ -1,7 +1,7 @@
 import React from 'react';
 import useAuth from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useAxios from '../../Hooks/useAxios';
 
 const FoodCard = ({ item }) => {
@@ -9,6 +9,7 @@ const FoodCard = ({ item }) => {
     const { user } = useAuth()
     const navigate = useNavigate()
     const axiosSecure = useAxios()
+    const location = useLocation()
 
 
     const handleAddToCart = (food) => {
@@ -37,8 +38,8 @@ const FoodCard = ({ item }) => {
                     }
                 })
         }
-        else (
-            Swal.fire({
+        else{
+             Swal.fire({
                 title: "You are Not Login",
                 text: "Please Login",
                 icon: "warning",
@@ -46,12 +47,15 @@ const FoodCard = ({ item }) => {
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, Login!"
-            }).then((result) => {
+            })
+            .then((result) => {
                 if (result.isConfirmed) {
                     navigate('/login', { state: { from: location } })
                 }
             })
-        )
+        }
+           
+        
     }
 
     return (

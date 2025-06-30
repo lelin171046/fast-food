@@ -10,7 +10,7 @@ const useCart = () => {
     const axiosSecure = useAxios();
     const{user} = useAuth()
 
-   //use tanstack qery
+   //use tanstack query
    const {refetch, data : cart=[]} = useQuery({
     queryKey: ['cart', user?.email],
     queryFn: async () =>{

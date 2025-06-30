@@ -67,7 +67,11 @@ const Navber = () => {
           {user ?
 
             <Link onClick={handleLogOut} className="btn">Logout</Link> :
-            <Link to={'/login'}>Login</Link>}
+            <Link to={'/login'}> 
+            <button className='btn btn-primary'>
+              Login
+            </button>
+             </Link>}
         </div>
       </div>
     </div>

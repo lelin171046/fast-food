@@ -49,9 +49,24 @@ const client = new MongoClient(uri, {
         res.send(result)
       })
 
+      //JWT token
+      app.post('/jwt', async(req, res)=>{
+        const user = req.body;
+        const token = jwt.sign(user, process.env.ACCESS_TOKEN, {expiresIn: '1h'});
+        res.send({token})
+
+      })
+
+      //Making Middleawre
+      const verifyToken = (req, res, next) =>{
+        console.log('inside',req.headers);
+        next()
+      }
+
       //user Api....................
       //all users
-      app.get('/users', async (req, res)=>{
+      app.get('/users', verifyToken, async (req, res)=>{
+        
         const result = await usersCollection.find().toArray();
         res.send(result)
       })
