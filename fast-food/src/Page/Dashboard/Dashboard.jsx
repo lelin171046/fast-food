@@ -17,11 +17,11 @@ const Dashboard = () => {
     const {user,logOut} = useAuth();
     const navigate = useNavigate()
     
-    const isAdmin = true;
-        // const [isAdmin] = useAdmin();
+    // const isAdmin = true;
+        const [isAdmin] = useAdmin();
 
 
-    console.log(user)
+    // console.log(user)
 
     const handleLogOut = () => {
     logOut()

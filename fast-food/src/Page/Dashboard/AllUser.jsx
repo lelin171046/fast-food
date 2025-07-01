@@ -3,9 +3,11 @@ import React from 'react';
 import useAxios from '../../Hooks/useAxios';
 import Swal from 'sweetalert2';
 import { FaUser } from 'react-icons/fa';
+import useAuth from '../../Hooks/useAuth';
 
 const AllUser = () => {
   const axiosSecure = useAxios()
+  const {user} = useAuth()
 
 
   const { refetch, data: users = [] } = useQuery({
@@ -16,17 +18,18 @@ const AllUser = () => {
         //   authorization : `Bearer ${localStorage.getItem('access-token')}`
         // }}
       );
-      console.log(res.data);
+      // console.log(res.data);
       return res.data;
     }
   });
   const handleMakeAdmin = user => {
+    console.log(user, 'fghsd')
     axiosSecure.patch(`/users/admin/${user?._id}`)
       .then(res => {
         console.log(res.data)
         if (res.data.modifiedCount > 0) {
           Swal.fire({
-  title: `${user.name} is an Admin NoW!  `,
+  title: `${user?.name} is an Admin NoW!  `,
   width: 600,
   padding: "3em",
   color: "#716add",
@@ -107,7 +110,7 @@ refetch()
                     </div>
                   </div>
                   <div>
-                    <div className="font-bold">{user?.displayName || user.name}</div>
+                    <div className="font-bold">{user?.name}</div>
                     {/* <div className="text-sm opacity-50">United States</div> */}
                   </div>
                 </div>
