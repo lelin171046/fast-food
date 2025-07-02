@@ -1,20 +1,22 @@
 import React from 'react';
-import Loader from '../Component/Loader';
 import useAuth from '../Hooks/useAuth';
-import { Navigate, useLocation } from 'react-router-dom';
 import useAdmin from '../Hooks/useAdmin';
-import toast from 'react-hot-toast';
+import Loader from '../Component/Loader';
+import { Navigate, replace, useLocation, useNavigate } from 'react-router-dom';
 
-const AdminRoute = (children) => {
+const AdminRoute = ({children}) => {
     const {user, loading} = useAuth()
+    const [isAdmin, isAdminLoading] = useAdmin();
+    const navigate = useNavigate();
     const location = useLocation();
-    const[isAdminLoading, isAdmin] = useAdmin()
-
-    if (loading || isAdminLoading) return <Loader></Loader>;
-
-    if (user && isAdmin) return children;
-
-    return toast.error('Login First') && <Navigate to="/login"  state={{ from: location }} replace /> ;
+    
+    if(loading || isAdminLoading){
+        return <Loader></Loader>
+    }
+    if(user && isAdmin){
+        return children;
+    }
+  return  <Navigate to={'/login'} state={{from: location}} replace></Navigate>
 };
 
 export default AdminRoute;

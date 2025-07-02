@@ -18,12 +18,13 @@ const AllUser = () => {
         //   authorization : `Bearer ${localStorage.getItem('access-token')}`
         // }}
       );
-      // console.log(res.data);
+      console.log('jdsfgd', user.photoURL
+);
       return res.data;
     }
   });
   const handleMakeAdmin = user => {
-    console.log(user, 'fghsd')
+    // console.log(user, 'fghsd')
     axiosSecure.patch(`/users/admin/${user?._id}`)
       .then(res => {
         console.log(res.data)
@@ -106,11 +107,11 @@ refetch()
                   <div className="avatar">
                     <div className="mask mask-squircle h-6 w-6">
                       <img
-                        src={user.image} />
+                        src={user?.photoURL || 'image'} />
                     </div>
                   </div>
                   <div>
-                    <div className="font-bold">{user?.name}</div>
+                    <div className="font-bold">{user?.name || 'User'}</div>
                     {/* <div className="text-sm opacity-50">United States</div> */}
                   </div>
                 </div>

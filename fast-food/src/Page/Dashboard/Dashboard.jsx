@@ -63,7 +63,7 @@ const Dashboard = () => {
 
                 
                     <li>
-                        <NavLink to={'/dashboard/review'} className="flex items-center p-2 space-x-3 rounded-md">
+                        <NavLink to={'/dashboard/addItem'} className="flex items-center p-2 space-x-3 rounded-md">
 
                             <FaAudioDescription className="w-5 h-5 fill-current dark:text-gray-600" />  <span>Add Item</span>
                         </NavLink>

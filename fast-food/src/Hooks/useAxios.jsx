@@ -12,7 +12,7 @@ const useAxios = () => {
     const navigate = useNavigate()
     axiosSecure.interceptors.request.use(function (config) {
         const token = localStorage.getItem('access-token')
-        console.log('req by intpr', token)
+        // console.log('req by intpr', token)
         config.headers.authorization = `Bearer ${token}`
     // Do something before request is sent
     return config;
