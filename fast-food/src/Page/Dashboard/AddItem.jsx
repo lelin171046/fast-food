@@ -2,47 +2,47 @@ import { useState } from "react";
 import { useForm } from "react-hook-form"
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import useAxios from "../../Hooks/useAxios";
-import toast from "react-hot-toast"
+import toast, { ToastBar } from "react-hot-toast"
 
 const img_hosting_key = import.meta.env.VITE_Image_Key;
 const img_hosting_api = `https://api.imgbb.com/1/upload?key=${img_hosting_key}`;
 
 const AddItem = () => {
 
-  const { register, handleSubmit , reset } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxios()
-  
+
 
 
 
   const onSubmit = async data => {
     console.log(data)
 
-    const imageFile = {image: data.image[0]};
+    const imageFile = { image: data.image[0] };
     const res = await axiosPublic.post(img_hosting_api, imageFile, {
-      headers: {'content-type': 'multipart/form-data'}
+      headers: { 'content-type': 'multipart/form-data' }
     });
     console.log(res.data)
 
-    if(res.data.success){
+    if (res.data.success) {
       const menuItem = {
-        name : data.name,
+        name: data.name,
         category: data.category,
-        price : parseFloat(data.price),
-        recipe : data.recipe,
-        image : res.data.data.display_url,
+        price: parseFloat(data.price),
+        recipe: data.recipe,
+        image: res.data.data.display_url,
       }
       //
       const menuRes = await axiosPublic.post('/menu', menuItem);
       console.log(menuRes.data)
 
-      if(menuRes.data.insertedId){
-        toast.success('Successfully created!');
-        alert('')
-        // reset()
+      if (menuRes.data.insertedId) {
+        toast.success('Successfully created Item!');
         
-        
+        reset()
+
+
       }
     }
   };
@@ -62,49 +62,49 @@ const AddItem = () => {
           id="name"
           name="name"
           type="text"
-          {...register('name',{required: true})}
+          {...register('name', { required: true })}
           className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200"
         />
       </div>
 
-     <div className="flex justify-between gap-2">
-       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="category">
-          Category
-        </label>
-        <select {...register('category')} className="w-full select select-success px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200" >
-          <option disabled={true}>Select Category</option>
-          <option value={'salad'}>Salad</option>
-          <option value={'pizza'}>Pizza</option>
-          <option value={'soup'}>Soup</option>
-          <option value={'dessert'}>Dessert</option>
-          <option value={'salad'}>Salad</option>
-          <option value={'drinks'}>Drinks</option>
-          
-        </select>
-      </div>
+      <div className="flex justify-between gap-2">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="category">
+            Category
+          </label>
+          <select {...register('category')} className="w-full select select-success px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200" >
+            <option disabled={true}>Select Category</option>
+            <option value={'salad'}>Salad</option>
+            <option value={'pizza'}>Pizza</option>
+            <option value={'soup'}>Soup</option>
+            <option value={'dessert'}>Dessert</option>
+            <option value={'salad'}>Salad</option>
+            <option value={'drinks'}>Drinks</option>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="price">
-          Price
-        </label>
-        <input
-          id="price"
-          {...register('price')}
-          name="price"
-          type="number"
+          </select>
+        </div>
 
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200"
-        />
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="price">
+            Price
+          </label>
+          <input
+            id="price"
+            {...register('price')}
+            name="price"
+            type="number"
+
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200"
+          />
+        </div>
       </div>
-     </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="details">
           Recipe Detail
         </label>
         <textarea
-        {...register('recipe')}
+          {...register('recipe')}
           id="details"
           name="details"
 
@@ -122,7 +122,8 @@ const AddItem = () => {
           name="image"
           type="file"
           accept="image/*"
-           {...register('image')}
+          {...register('image')}
+          required
 
           className="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4
           file:rounded file:border-0

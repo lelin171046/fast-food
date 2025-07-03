@@ -18,8 +18,7 @@ const AllUser = () => {
         //   authorization : `Bearer ${localStorage.getItem('access-token')}`
         // }}
       );
-      console.log('jdsfgd', user.photoURL
-);
+     
       return res.data;
     }
   });

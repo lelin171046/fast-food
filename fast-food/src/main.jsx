@@ -8,8 +8,10 @@ import AuthProvider from './Provider/AuthProvider';
 import {
   QueryClient,
   QueryClientProvider,
-  
+
 } from '@tanstack/react-query'
+
+import { Toaster } from 'react-hot-toast';
 
 const queryClient = new QueryClient()
 
@@ -17,13 +19,15 @@ const queryClient = new QueryClient()
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <ParallaxProvider>
-          <div className="max-w-screen-xl mx-auto">
-            <RouterProvider router={router} />
-          </div>
-        </ParallaxProvider>
-      </QueryClientProvider>
+      <Toaster></Toaster>
+        <QueryClientProvider client={queryClient}>
+          <ParallaxProvider>
+            <div className="max-w-screen-xl mx-auto">
+              <RouterProvider router={router} />
+            </div>
+          </ParallaxProvider>
+        </QueryClientProvider>
+      
     </AuthProvider>
   </StrictMode>,
 )
