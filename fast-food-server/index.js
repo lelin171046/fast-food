@@ -43,22 +43,8 @@ const client = new MongoClient(uri, {
       const usersCollection = client.db('fastFoodDB').collection('users');
       const cartCollection = client.db('fastFoodDB').collection('cart');
 
-      //menu api
-      app.get('/menu', async (req, res)=>{
-        const result = await menuCollection.find().toArray()
-        res.send(result)
-      })
-
-      //JWT token
-      app.post('/jwt', async(req, res)=>{
-        const user = req.body;
-        const token = jwt.sign(user, process.env.ACCESS_TOKEN, {expiresIn: '1h'});
-
-        res.send({token})
-
-      })
-
-      //Making Middleawre
+   
+      //Making MiddleWire
       const verifyToken = (req, res, next) =>{
         console.log('inside', req.headers.authorization);
         if(!req.headers.authorization){
@@ -77,7 +63,7 @@ const client = new MongoClient(uri, {
         
       }
 
-      //varify Admin
+       //verify Admin
       const verifyAdmin = async (req, res, next) =>{
         const email = req.decoded.email;
         const query = {email: email}
@@ -88,7 +74,19 @@ const client = new MongoClient(uri, {
         }
         next()
       }
-      ///Admin api
+      
+     
+      //JWT token
+      app.post('/jwt', async(req, res)=>{
+        const user = req.body;
+        const token = jwt.sign(user, process.env.ACCESS_TOKEN, {expiresIn: '1h'});
+
+        res.send({token})
+
+      })
+     
+
+  ///Admin api
       app.get('/users/admin/:email', verifyToken,  async(req, res)=>{
         const email = req.params.email;
         if(email !== req.decoded.email){
@@ -103,6 +101,7 @@ const client = new MongoClient(uri, {
         }
         res.send({admin})
       })
+    
 
       //user Api....................
       //all users
@@ -126,7 +125,7 @@ const client = new MongoClient(uri, {
 
       })
 
-      //Delete Userr
+      //Delete User
       app.delete('/users/:id', verifyToken, verifyAdmin, async (req, res)=>{
         const id = req.params.id;
         const query = {_id : new ObjectId(id)}
@@ -145,6 +144,22 @@ const client = new MongoClient(uri, {
         const result = await usersCollection.updateOne(filter, updatedDoc);
          res.send(result)
      })
+
+
+      //menu api
+      app.get('/menu', async (req, res)=>{
+        const result = await menuCollection.find().toArray()
+        res.send(result)
+      })
+
+      //men post
+      app.post('/menu',  async (req, res)=>{
+        const item = req.body;
+        const result = await menuCollection.insertOne(item);
+        res.send(result)
+      })
+
+
      //reviews api
       app.get('/reviews', async (req, res)=>{
         const result = await reviewCollection.find().toArray()
