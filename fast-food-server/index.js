@@ -151,6 +151,13 @@ const client = new MongoClient(uri, {
         const result = await menuCollection.find().toArray()
         res.send(result)
       })
+      //
+      app.get('/menu/:id', async (req, res)=>{
+        const id = req.params.id;
+        const query = {_id : new ObjectId(id)}
+        const result = await menuCollection.findOne(query)
+        res.send(result)
+      })
 
       //men post
       app.post('/menu', verifyToken, verifyAdmin,  async (req, res)=>{

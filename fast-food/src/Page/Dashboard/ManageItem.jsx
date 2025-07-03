@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { useQuery } from '@tanstack/react-query';
 import { FaEdit } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const ManageItem = () => {
     const [menu] = useMenu();
@@ -53,7 +54,7 @@ const ManageItem = () => {
         <div>
             <div className="overflow-x-auto">
                   <label className='text-center'>
-                    <p>Total user: {menus.length}</p>
+                    <p>Total Items: {menus.length}</p>
                   </label>
                   <table className="table">
                     {/* head */}
@@ -100,7 +101,9 @@ const ManageItem = () => {
                             <p>{menu.price}</p>
                           </td>
                           <td className='items-end text-orange-400 text-center'>
+                            <Link to={`/dashboard/updateItem/${menu._id}`}>
                             <button><FaEdit></FaEdit></button>
+                            </Link>
                           </td>
                           <th>
                             <button onClick={() => handleDelete(menu)} type="button" className="flex text-orange-400 items-center px-2 py-1 pl-0 space-x-1">
