@@ -236,9 +236,7 @@ const client = new MongoClient(uri, {
 
       app.post('/create-checkout-session', async (req, res) =>{
         const { price } = req.body;
-        console.log(price)
         const amount = parseInt(price * 100);
-        console.log({amount})
         const paymentIntent = await stripe.paymentIntents.create({
           amount: amount,
           currency: 'usd',
