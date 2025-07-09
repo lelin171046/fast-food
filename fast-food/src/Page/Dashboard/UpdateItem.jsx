@@ -1,18 +1,35 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form"
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import useAxios from "../../Hooks/useAxios";
-import toast from "react-hot-toast";
+import { useLoaderData, useParams, } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useEffect, useState } from "react";
 
 const img_hosting_key = import.meta.env.VITE_Image_Key;
 const img_hosting_api = `https://api.imgbb.com/1/upload?key=${img_hosting_key}`;
 
 const UpdateItem = () => {
 
-  const { register, handleSubmit, reset } = useForm();
+ const { id } = useParams(); // get id from URL
+  const axiosSecure = useAxios();
   const axiosPublic = useAxiosPublic();
-  const axiosSecure = useAxios()
 
+  const [item, setItem] = useState();
+  const { register, handleSubmit, reset } = useForm();
+
+  // ✅ Load the item by ID
+  useEffect(() => {
+    axiosSecure.get(`/menu/${id}`)
+      .then(res => {
+        setItem(res.data);
+        // populate form with existing values
+        reset(res.data);
+        console.log(item)
+      })
+      .catch(err => {
+        console.error("Failed to load item:", err);
+      });
+  }, [id, axiosSecure, reset]);
 
 
 
@@ -34,16 +51,20 @@ const UpdateItem = () => {
         image: res.data.data.display_url,
       }
       //
-      const menuRes = await axiosPublic.post('/menu', menuItem);
-      console.log(menuRes.data)
-
-      if (menuRes.data.insertedId) {
-        toast.success('Successfully updated Item!');
-        
-        reset()
-
-
-      }
+      const menuRes = await axiosSecure.patch(`/menu/${id}`, menuItem);
+            console.log(menuRes.data)
+            if(menuRes.data.modifiedCount > 0){
+                // show success popup
+                // reset();
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `${data.name} is updated to the menu.`,
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+            }
+            else('try again')
     }
   };
 
@@ -59,6 +80,7 @@ const UpdateItem = () => {
           Recipe Name
         </label>
         <input
+        defaultValue={name}
           id="name"
           name="name"
           type="text"
@@ -137,7 +159,7 @@ const UpdateItem = () => {
         type="submit"
         className="w-full py-2 px-4 bg-orange-400 text-white font-semibold rounded-md hover:bg-indigo-700 transition"
       >
-        Add Item
+        Update Item
       </button>
     </form>
   );

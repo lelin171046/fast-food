@@ -1,6 +1,6 @@
 import React from 'react';
 import useCart from '../../Hooks/useCart';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import useAxios from '../../Hooks/useAxios';
 
@@ -96,12 +96,21 @@ const Cart = () => {
                     <NavLink to={'/order/salad'} className="px-6 py-2 border rounded-md dark:border-violet-600">Back
                         <span className="sr-only sm:not-sr-only">to shop</span>
                     </NavLink>
+               {cart.length ?  <Link to={'/dashboard/payment'}>
                     <button type="button" className="relative p-0.5 inline-flex items-center justify-center font-bold overflow-hidden group rounded-md">
                         <span className="w-full h-full bg-gradient-to-br from-[#ff8a05] via-[#ff5478] to-[#ff00c6] group-hover:from-[#ff00c6] group-hover:via-[#ff5478] group-hover:to-[#ff8a05] absolute"></span>
                         <span className="relative px-6 py-3 transition-all ease-out bg-slate-500 rounded-md group-hover:bg-opacity-0 duration-400">
                             <span className="relative text-white"><span className="sr-only sm:not-sr-only">Continue to</span>Checkout</span>
                         </span>
                     </button>
+                </Link> :
+                <button disabled type="button" className="relative p-0.5 inline-flex items-center justify-center font-bold overflow-hidden group rounded-md">
+                        <span className="w-full h-full bg-gradient-to-br from-[#ff8a05] via-[#ff5478] to-[#ff00c6] group-hover:from-[#ff00c6] group-hover:via-[#ff5478] group-hover:to-[#ff8a05] absolute"></span>
+                        <span className="relative px-6 py-3 transition-all ease-out bg-slate-500 rounded-md group-hover:bg-opacity-0 duration-400">
+                            <span className="relative text-white"><span className="sr-only sm:not-sr-only">Continue to</span>Checkout</span>
+                        </span>
+                    </button>
+                }
 
 
                   

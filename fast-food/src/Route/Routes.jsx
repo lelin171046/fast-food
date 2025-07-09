@@ -15,6 +15,7 @@ import ManageItem from "../Page/Dashboard/ManageItem";
 import AddItem from "../Page/Dashboard/AddItem";
 import AdminRoute from "./AdminRoute";
 import UpdateItem from "../Page/Dashboard/UpdateItem";
+import Payment from "../Page/Dashboard/Payment/Payment";
 
 
 const router = createBrowserRouter([
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
         path: '/',
         element: <Main></Main>,
         errorElement: <ErrorPage></ErrorPage>,
-        children:[
+        children: [
             {
                 path: '/',
                 element: <Home></Home>
@@ -43,17 +44,22 @@ const router = createBrowserRouter([
             {
                 path: 'sign-in',
                 element: <SignIn></SignIn>
-            }
+            },
+           
 
         ]
     },
     {
-        path:  'dashboard',
+        path: 'dashboard',
         element: <PrivateRoute> <Dashboard></Dashboard></PrivateRoute>,
         children: [
             {
                 path: 'cart',
                 element: <Cart></Cart>
+            },
+             {
+                path: 'payment',
+                element: <Payment></Payment>
             },
             //admin link
             {
@@ -70,8 +76,8 @@ const router = createBrowserRouter([
             },
             {
                 path: 'updateItem/:id',
-                element: <UpdateItem></UpdateItem>,
-                loader: ``
+                element: <AdminRoute><UpdateItem></UpdateItem></AdminRoute>,
+                loader: ({ params }) => fetch(`http://localhost:5000/menu/${params.id}`)
             }
         ]
     }
