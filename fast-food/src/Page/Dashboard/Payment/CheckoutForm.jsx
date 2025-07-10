@@ -3,13 +3,16 @@ import React, { useEffect, useState } from 'react';
 import useCart from '../../../Hooks/useCart';
 import useAxios from '../../../Hooks/useAxios';
 import useAuth from '../../../Hooks/useAuth';
+import { data } from 'react-router-dom';
+import toast from 'react-hot-toast';
+
 
 const CheckoutForm = () => {
       const stripe = useStripe();
   const elements = useElements();
   const [error, setError] = useState()
   const [cart, refetch] = useCart();
-  const {transactionId, setTransactionId} = useState('')
+const [transactionId, setTransactionId] = useState('');
   const {user} = useAuth()
 const totalPrice = cart.reduce((total, item) => total + parseFloat(item.price), 0);
   console.log(totalPrice, 'cart', cart)
@@ -71,8 +74,26 @@ const totalPrice = cart.reduce((total, item) => total + parseFloat(item.price), 
      else{
       console.log('payment intent', paymentIntent)
       if(paymentIntent.status === 'succeeded'){
-        console.log('tc ID:', paymentIntent.id)
+        // console.log('tc ID:', paymentIntent.id)
         setTransactionId(paymentIntent.id)
+        const payment = {
+          email: user.email,
+          transactionId: paymentIntent.id ,
+          price: totalPrice,
+          data: new Date(), //use utc time by moment js,
+          cartIds : cart.map(item => item._id),
+          menuIds : cart.map(item => item.menuId),
+          status: 'pending'
+        }
+
+        const res = await useAxiosSecure.post('/payment', payment);
+        console.log(res)
+        if(res.data?.paymentResult?.insertedId){
+          toast.success('Payment Successful!')
+        }
+
+
+        refetch()
       }
      }
 
@@ -101,7 +122,7 @@ const totalPrice = cart.reduce((total, item) => total + parseFloat(item.price), 
         Pay
       </button>
       <p className='text-red-600'>{error}</p>
-      {transactionId && <p className='text-green-500'>Paid Successfully your Transaction ID{transactionId}</p>}
+      {transactionId && <p className='text-green-500'>Paid Successfully your Transaction ID:  {transactionId}</p>}
         </form>
     );
 };

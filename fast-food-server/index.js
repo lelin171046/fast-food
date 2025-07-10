@@ -43,6 +43,7 @@ const client = new MongoClient(uri, {
       const reviewCollection = client.db('fastFoodDB').collection('reviews');
       const usersCollection = client.db('fastFoodDB').collection('users');
       const cartCollection = client.db('fastFoodDB').collection('cart');
+      const paymentCollection = client.db('fastFoodDB').collection('payment');
 
    
       //Making MiddleWire
@@ -232,7 +233,7 @@ const client = new MongoClient(uri, {
         res.send(result)
       })
 
-      //Payment
+      //Payment------------------------------------payment
 
       app.post('/create-checkout-session', async (req, res) =>{
         const { price } = req.body;
@@ -245,6 +246,31 @@ const client = new MongoClient(uri, {
         res.send({
           clientSecret: paymentIntent.client_secret
         })
+      })
+      //store user payment info
+      app.post('/payment', async (req, res)=>{
+        const payment = req.body;
+        const paymentResult = await paymentCollection.insertOne(payment);
+        //know delete cart items
+        const query = { _id: {
+          $in: payment.cartIds.map(id=> new ObjectId(id))
+        }
+
+        }
+
+        const deleteResult = await cartCollection.deleteMany(query)
+        console.log('pay info', payment)
+        res.send({paymentResult, deleteResult})
+      })
+
+      //payment history get
+      app.get('/payments/:id',  async (req,res)=>{
+        const query = {email : req.params.email};
+        if(req.params.email !== req.decoded.email){
+          return res.status(403).send({message: 'forbidden'})
+        }
+        const result = await paymentCollection.find(query).toArray();
+        res.send(result)
       })
       // Send a ping to confirm a successful connection
       await client.db("admin").command({ ping: 1 });

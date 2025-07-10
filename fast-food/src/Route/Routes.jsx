@@ -16,6 +16,7 @@ import AddItem from "../Page/Dashboard/AddItem";
 import AdminRoute from "./AdminRoute";
 import UpdateItem from "../Page/Dashboard/UpdateItem";
 import Payment from "../Page/Dashboard/Payment/Payment";
+import PaymentHistory from "../Page/Dashboard/Payment/PaymentHistory";
 
 
 const router = createBrowserRouter([
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
              {
                 path: 'payment',
                 element: <Payment></Payment>
+            },
+            {
+                path: 'payment-history',
+                element: <PaymentHistory></PaymentHistory>
             },
             //admin link
             {

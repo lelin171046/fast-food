@@ -1,7 +1,7 @@
-import React from 'react';
+
 import { BsCart2, } from 'react-icons/bs';
 import { IoHomeOutline } from "react-icons/io5";
-import { FaAudioDescription, FaBook, FaCookie, FaMagnet, FaMandalorian, FaPeopleArrows, FaPeopleCarry, FaRegCalendarAlt, FaUser, FaUsers } from "react-icons/fa";
+import { FaAudioDescription, FaMagnet,  FaRegCalendarAlt,  FaUsers } from "react-icons/fa";
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { SiFoodpanda } from "react-icons/si";
 
@@ -108,9 +108,9 @@ const Dashboard = () => {
                         </NavLink>
                     </li>
                      <li>
-                        <NavLink to={'/dashboard/bookings'} className="flex items-center p-2 space-x-3 rounded-md">
+                        <NavLink to={'/dashboard/payment-history'} className="flex items-center p-2 space-x-3 rounded-md">
 
-                            <TbBrandBooking className="w-5 h-5 fill-current dark:text-gray-600" />  <span>My Booking</span>
+                            <TbBrandBooking className="w-5 h-5 fill-current dark:text-gray-600" />  <span>Payment History</span>
                         </NavLink>
                     </li>
                       <li>
