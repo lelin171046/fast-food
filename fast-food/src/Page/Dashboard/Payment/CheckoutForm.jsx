@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import useCart from '../../../Hooks/useCart';
 import useAxios from '../../../Hooks/useAxios';
 import useAuth from '../../../Hooks/useAuth';
-import { data } from 'react-router-dom';
+import { data, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 
@@ -13,7 +13,8 @@ const CheckoutForm = () => {
   const [error, setError] = useState()
   const [cart, refetch] = useCart();
 const [transactionId, setTransactionId] = useState('');
-  const {user} = useAuth()
+  const {user} = useAuth();
+  const navigate = useNavigate()
 const totalPrice = cart.reduce((total, item) => total + parseFloat(item.price), 0);
   console.log(totalPrice, 'cart', cart)
   const useAxiosSecure = useAxios();
@@ -80,7 +81,7 @@ const totalPrice = cart.reduce((total, item) => total + parseFloat(item.price), 
           email: user.email,
           transactionId: paymentIntent.id ,
           price: totalPrice,
-          data: new Date(), //use utc time by moment js,
+          date: new Date(), //use utc time by moment js,
           cartIds : cart.map(item => item._id),
           menuIds : cart.map(item => item.menuId),
           status: 'pending'
@@ -94,6 +95,7 @@ const totalPrice = cart.reduce((total, item) => total + parseFloat(item.price), 
 
 
         refetch()
+        navigate('/dashboard/payment-history')
       }
      }
 

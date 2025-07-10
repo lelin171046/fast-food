@@ -8,9 +8,9 @@ const PaymentHistory = () => {
     const {user} = useAuth()
 
       const { refetch, data: payments = [] } = useQuery({
-    queryKey: ['payments'],
+    queryKey: ['payments', user.email],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/payment/${user.email}`, 
+      const res = await axiosSecure.get(`/payments/${user.email}`, 
         // { headers: {
         //   authorization : `Bearer ${localStorage.getItem('access-token')}`
         // }}
@@ -33,10 +33,10 @@ const PaymentHistory = () => {
 				<col />
 				<col className="w-24" />
 			</colgroup>
-			<thead className="dark:bg-gray-300">
+			<thead className="dark:bg-gray-300 border-b border-opacity-20 ">
 				<tr className="text-left">
-					<th className="p-3">Menu ID #</th>
-					<th className="p-3">Menu</th>
+					<th className="p-3">Serial No</th>
+					<th className="p-3">Transaction ID</th>
 					<th className="p-3">Issued</th>
 					<th className="p-3">Due</th>
 					<th className="p-3 text-right">Amount</th>
@@ -44,15 +44,16 @@ const PaymentHistory = () => {
 				</tr>
 			</thead>
 			<tbody>
-				<tr className="border-b border-opacity-20 dark:border-gray-300 dark:bg-gray-50">
+				{
+					payments.map((payment, index) => <tr key={payment?._id} className="border-b border-opacity-20 dark:border-gray-300 dark:bg-gray-50">
 					<td className="p-3">
-						<p>97412378923</p>
+						<p>{index + 1}</p>
 					</td>
 					<td className="p-3">
-						<p>Microsoft Corporation</p>
+						<p>{payment.transactionId}</p>
 					</td>
 					<td className="p-3">
-						<p>14 Jan 2022</p>
+						<p>{payment.date}</p>
 						<p className="dark:text-gray-600">Friday</p>
 					</td>
 					<td className="p-3">
@@ -60,14 +61,15 @@ const PaymentHistory = () => {
 						<p className="dark:text-gray-600">Tuesday</p>
 					</td>
 					<td className="p-3 text-right">
-						<p>$15,792</p>
+						<p>${payment.price}</p>
 					</td>
 					<td className="p-3 text-right">
 						<span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-600 dark:text-gray-50">
-							<span>Pending</span>
+							<span>{payment.status}</span>
 						</span>
 					</td>
-				</tr>
+				</tr>)
+				}
 				
 			</tbody>
 		</table>

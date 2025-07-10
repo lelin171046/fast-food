@@ -64,7 +64,14 @@ const client = new MongoClient(uri, {
 
         
       }
+  //JWT token
+      app.post('/jwt', async(req, res)=>{
+        const user = req.body;
+        const token = jwt.sign(user, process.env.ACCESS_TOKEN, {expiresIn: '1h'});
 
+        res.send({token})
+
+      })
        //verify Admin
       const verifyAdmin = async (req, res, next) =>{
         const email = req.decoded.email;
@@ -78,14 +85,7 @@ const client = new MongoClient(uri, {
       }
       
      
-      //JWT token
-      app.post('/jwt', async(req, res)=>{
-        const user = req.body;
-        const token = jwt.sign(user, process.env.ACCESS_TOKEN, {expiresIn: '1h'});
-
-        res.send({token})
-
-      })
+    
      
 
   ///Admin api
@@ -259,12 +259,12 @@ const client = new MongoClient(uri, {
         }
 
         const deleteResult = await cartCollection.deleteMany(query)
-        console.log('pay info', payment)
+        // console.log('pay info', payment)
         res.send({paymentResult, deleteResult})
       })
 
       //payment history get
-      app.get('/payments/:id',  async (req,res)=>{
+      app.get('/payments/:email', verifyToken, async (req,res)=>{
         const query = {email : req.params.email};
         if(req.params.email !== req.decoded.email){
           return res.status(403).send({message: 'forbidden'})
