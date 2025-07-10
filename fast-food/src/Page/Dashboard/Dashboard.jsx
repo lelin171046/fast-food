@@ -54,7 +54,7 @@ const Dashboard = () => {
                         </a>
                     </li>
                     <li>
-                        <NavLink to={'/dashboard/adminHome'} className="flex items-center p-2 space-x-3 rounded-md">
+                        <NavLink to={'/dashboard/admin-home'} className="flex items-center p-2 space-x-3 rounded-md">
 
                             <IoHomeOutline className="w-5 h-5 fill-current dark:text-gray-600" />  <span>Admin Home</span>
                         </NavLink>
@@ -91,11 +91,11 @@ const Dashboard = () => {
 
                 </ul>
                 <ul className="pt-4 pb-2 space-y-1 text-sm">
-                    <NavLink to={'/'} className="flex items-center p-2 space-x-3 rounded-md">
+                    <NavLink to={'/dashboard/user-home'} className="flex items-center p-2 space-x-3 rounded-md">
 
-                        <IoHomeOutline className="w-5 h-5 fill-current dark:text-gray-600" />  <span>Home</span>
+                        <IoHomeOutline className="w-5 h-5 fill-current dark:text-gray-600" />  <span>User Home</span>
                     </NavLink>
-                    <li>
+                    <ol>
                         <li>
                             <NavLink to={'/order/salad'} className="flex items-center p-2 space-x-3 rounded-md">
 
@@ -128,7 +128,7 @@ const Dashboard = () => {
                             <span>Logout</span>
                         </a>
                         </button>
-                    </li>
+                    </ol>
                 </ul>
             </div>
             <div className="flex-1">

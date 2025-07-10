@@ -17,6 +17,8 @@ import AdminRoute from "./AdminRoute";
 import UpdateItem from "../Page/Dashboard/UpdateItem";
 import Payment from "../Page/Dashboard/Payment/Payment";
 import PaymentHistory from "../Page/Dashboard/Payment/PaymentHistory";
+import AdminHome from "../Page/Dashboard/AdminHome";
+import UserHome from "../Page/UserHome/UserHome";
 
 
 const router = createBrowserRouter([
@@ -66,10 +68,18 @@ const router = createBrowserRouter([
                 path: 'payment-history',
                 element: <PaymentHistory></PaymentHistory>
             },
+            {
+                path: 'user-home',
+                element: <UserHome></UserHome>
+            },
             //admin link
             {
                 path: 'allUsers',
                 element: <AllUser></AllUser>
+            },
+            {
+                path: 'admin-home',
+                element: <AdminRoute><AdminHome></AdminHome></AdminRoute>
             },
             {
                 path: 'addItem',

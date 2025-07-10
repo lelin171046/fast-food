@@ -1,13 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import useAuth from '../Hooks/useAuth';
 import { BsCart2 } from "react-icons/bs";
 import useCart from '../Hooks/useCart';
+import useAdmin from '../Hooks/useAdmin';
 
 const Navber = () => {
   const { user, logOut } = useAuth()
   const [cart] = useCart()
-
+  const [isAdmin] = useAdmin()
   const handleLogOut = () => {
     logOut()
       .then(() => { })
@@ -38,11 +39,17 @@ const Navber = () => {
               <li><Link to={'/'}>Home</Link></li>
               <li><Link to={'/menu'}>Menu</Link></li>
               <li><Link to={'/order/salad'}>Order Food</Link></li>
+              {
+                user && isAdmin && <li><NavLink to={'/dashboard/admin-home'}>Dashboard</NavLink></li>
+              }
+              {
+                user && !isAdmin && <li><NavLink to={'/dashboard/user-home'}>Dashboard</NavLink></li>
 
+              }
               <li> <Link to={'/dashboard/cart'}>
-              <button  className="btn bg-none">
-              <BsCart2 /><div className="badge badge-sm badge-secondary">+{cart.length}</div>
-            </button>
+                <button className="btn bg-none">
+                  <BsCart2 /><div className="badge badge-sm badge-secondary">+{cart.length}</div>
+                </button>
               </Link></li>
             </ul>
           </div>
@@ -53,11 +60,18 @@ const Navber = () => {
             <li><Link to={'/'}>Home</Link></li>
             <li><Link to={'/menu'}>Menu</Link></li>
             <li><Link to={'/order/salad'}>Order Food</Link></li>
+            {
+              user && isAdmin && <li><NavLink to={'/dashboard/admin-home'}>Dashboard</NavLink></li>
+            }
+            {
+              user && !isAdmin && <li><NavLink to={'/dashboard/user-home'}>Dashboard</NavLink></li>
+
+            }
             <li>
               <Link to={'/dashboard/cart'}>
-              <button  className="btn bg-none">
-              <BsCart2 /><div className="badge badge-sm badge-secondary">+{cart.length}</div>
-            </button>
+                <button className="btn bg-none">
+                  <BsCart2 /><div className="badge badge-sm badge-secondary">+{cart.length}</div>
+                </button>
               </Link>
             </li>
 
@@ -67,11 +81,11 @@ const Navber = () => {
           {user ?
 
             <Link onClick={handleLogOut} className="btn">Logout</Link> :
-            <Link to={'/login'}> 
-            <button className='btn btn-primary'>
-              Login
-            </button>
-             </Link>}
+            <Link to={'/login'}>
+              <button className='btn btn-primary'>
+                Login
+              </button>
+            </Link>}
         </div>
       </div>
     </div>
