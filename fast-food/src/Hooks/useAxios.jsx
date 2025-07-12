@@ -4,7 +4,8 @@ import useAuth from "./useAuth";
 
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000'
+    // baseURL: 'https://fast-food-server2-o8k9xfgg0-moniruzzaman-lelins-projects.vercel.app'
+    baseURL: import.meta.env.VITE_API_URL
 })
 const useAxiosSecure = () => {
     const navigate = useNavigate();
